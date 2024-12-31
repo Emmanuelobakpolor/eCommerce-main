@@ -1,0 +1,112 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="max-width: 1200px; margin: 20px auto; padding: 0 20px;">
+    <div class="product-container" style="display: flex; flex-wrap: wrap; gap: 30px; background: #fff; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <!-- Product Image Section -->
+        <div class="product-image" style="flex: 0 0 400px; padding: 20px;">
+            <div style="position: relative; background: #fff; border: 1px solid #eee; border-radius: 4px; padding: 10px;">
+                <img src="{{ product.imageURL }}" 
+                     alt="{{ product.name }}" 
+                     style="width: 100%; height: auto; object-fit: contain; max-height: 400px;">
+            </div>
+        </div>
+
+        <!-- Product Details Section -->
+        <div class="product-details" style="flex: 1; min-width: 300px; padding: 20px;">
+            <!-- Brand -->
+            <div style="margin-bottom: 10px;">
+                <span style="color: #276076; font-size: 14px; text-transform: uppercase;">{{ product.brand }}</span>
+            </div>
+
+            <!-- Product Name -->
+            <h1 style="font-size: 24px; color: #282828; margin-bottom: 15px; font-weight: 500;">
+                {{ product.name }}
+            </h1>
+
+            <!-- Category -->
+            <div style="margin-bottom: 15px;">
+                <span style="color: #666; font-size: 14px;">Category: 
+                    <a href="#" style="color: #f68b1e; text-decoration: none;">{{ product.category }}</a>
+                </span>
+            </div>
+
+            <!-- Price Section -->
+            <div style="background: #fafafa; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+                <div style="font-size: 28px; color: #282828; font-weight: 600;">
+                    ₦{{ product.price|floatformat:2 }}
+                </div>
+            </div>
+
+            <!-- Stock Status -->
+            <div style="margin-bottom: 20px;">
+                <span style="color: {% if product.stock > 0 %}#008000{% else %}#ff0000{% endif %}; 
+                             font-size: 14px; 
+                             font-weight: 500;">
+                    {% if product.stock > 0 %}
+                        In Stock ({{ product.stock }} units)
+                    {% else %}
+                        Out of Stock
+                    {% endif %}
+                </span>
+            </div>
+
+            <!-- Add to Cart Button -->
+            <button data-product="{{ product.id }}" 
+                    data-action="add" 
+                    class="update-cart"
+                    style="background-color: #f68b1e;
+                           color: white;
+                           border: none;
+                           padding: 15px 45px;
+                           font-size: 16px;
+                           border-radius: 4px;
+                           cursor: pointer;
+                           transition: background-color 0.3s;
+                           width: 100%;
+                           max-width: 400px;
+                           font-weight: 600;">
+                ADD TO CART
+            </button>
+
+            <!-- Description -->
+            <div style="margin-top: 30px;">
+                <h3 style="font-size: 18px; color: #282828; margin-bottom: 10px; font-weight: 500;">
+                    Product Description
+                </h3>
+                <p style="color: #666; line-height: 1.6; font-size: 14px;">
+                    {{ product.description }}
+                </p>
+            </div>
+
+            <!-- Specifications -->
+            <div style="margin-top: 30px;">
+                <h3 style="font-size: 18px; color: #282828; margin-bottom: 15px; font-weight: 500;">
+                    Key Features
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    {% for key, value in product.specifications.items %}
+                    <li style="padding: 10px; 
+                               background: {% cycle '#fff' '#fafafa' %}; 
+                               border-bottom: 1px solid #eee;
+                               font-size: 14px;">
+                        <strong style="color: #282828; min-width: 150px; display: inline-block;">
+                            {{ key }}:
+                        </strong>
+                        <span style="color: #666;">{{ value }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add hover effect for button -->
+<style>
+    button.update-cart:hover {
+        background-color: #e17813 !important;
+    }
+
+{% endblock %}
